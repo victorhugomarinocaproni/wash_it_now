@@ -56,5 +56,14 @@ module.exports = {
 
     async login_post(req, res) {
 
+        const { nome , email, senha } = req.body;
+
+        try {
+            const usuario = await Usuario.login(nome, email, senha);
+            res.status(200).json({ usuario: usuario.id });
+        }
+        catch (err) {
+            res.status(400).json({ Erro: 'Usuário Incorreto' });
+        }
     },
 };

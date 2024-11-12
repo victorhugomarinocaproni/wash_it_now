@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 class Usuario extends Model {
   static init(sequelize) {
@@ -13,6 +14,30 @@ class Usuario extends Model {
       underscored: true,
     });
   }
+
+  // Static Methods 
+  static async login(nome, email, senha) {
+    const usuario = await this.findOne( {where: {nome, email} } );
+    if (!usuario) {
+      throw new Error('E-mail Incorreto!');
+    }
+
+    const isSenhaCorreta = await bcrypt.compare(senha, usuario.senha);
+
+    if (!isSenhaCorreta) {
+      throw new Error ('Senha Incorreta!');
+    }
+
+    return usuario;
+  }
+
+
+
+
+
+
 }
+
+
 
 module.exports = Usuario;
