@@ -1,18 +1,28 @@
 const Usuario = require('../database/models/Usuario');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const handleErrors = (err) => {
     console.log(err.message, err.code);
 }
 
+const maxAge = 3 * 24 * 60 * 60; // 3 dias em segundos
+
+// jwt deve receber 3 parâmetros: {payload}, secret, {duration}
+const createToken = (id) => {
+    return jwt.sign({ id }, 'your application secret', {
+        expiresIn: maxAge
+    });
+}
+
 module.exports = {
 
     async cadastro_get(req, res) {
-
+        res.render('signup');
     },
 
     async login_get(req, res) {
-
+        res.render('login');
     },
 
     async cadastro_post(req, res) {
@@ -27,7 +37,16 @@ module.exports = {
             };
 
             const usuario = await Usuario.create(usr);
-            res.status(201).json(usuario);
+            const token = createToken(usuario.id);
+
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                maxAge: maxAge * 1000,
+                sameSite: 'lax',
+                secure: false});
+
+            res.status(201).json({ usuario: usuario.id });
+
         }
         catch (err) {
             handleErrors(err);
