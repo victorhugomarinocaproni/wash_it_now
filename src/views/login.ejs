@@ -6,8 +6,10 @@
   <input type="text" name="nome" required />
   <label for="email">Email</label>
   <input type="text" name="email" required />
+  <div class="email-error"></div>
   <label for="senha">Senha</label>
-  <input type="text" name="senha" required />
+  <input type="password" name="senha" required />
+  <div class="password-error"></div>
   <button>Login</button>
 </form>
 
@@ -15,6 +17,8 @@
 
 <script>
   const form = document.querySelector('form');
+  const emailError = document.querySelector('.email-error');
+  const senhaError = document.querySelector('.password-error');
   
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -32,7 +36,13 @@
       });
 
       const data = await res.json();
-      console.log(data);
+
+      console.log(`Aqui: ${data}`);
+
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        senhaError.textContent = data.errors.senha;
+      }
 
       if (res.status != 400) {
         location.assign('/');

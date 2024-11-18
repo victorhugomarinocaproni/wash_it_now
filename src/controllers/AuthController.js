@@ -4,6 +4,21 @@ const jwt = require('jsonwebtoken');
 
 const handleErrors = (err) => {
     console.log(err.message, err.code);
+
+    let erros = {
+        email: '',
+        senha: ''
+    };
+
+    if (err.message === 'E-mail Incorreto!') {
+        erros.email = 'E-mail não registrado para este usuário';
+    }
+
+    if (err.message === 'Senha Incorreta!') {
+        erros.senha = 'A senha está incorreta';
+    }
+
+    return erros;
 }
 
 const maxAge = 3 * 24 * 60 * 60; // 3 dias em segundos
@@ -60,10 +75,16 @@ module.exports = {
 
         try {
             const usuario = await Usuario.login(nome, email, senha);
+            const token = createToken(usuario.id);
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                maxAge: maxAge * 1000
+            });
             res.status(200).json({ usuario: usuario.id });
         }
         catch (err) {
-            res.status(400).json({ Erro: 'Usuário Incorreto' });
+            const errors = handleErrors(err);
+            res.status(400).json({ errors: errors });
         }
     },
 };
