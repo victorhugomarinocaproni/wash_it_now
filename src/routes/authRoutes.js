@@ -7,6 +7,7 @@ router.get('/cadastro', AuthController.cadastro_get);
 router.post('/cadastro', AuthController.cadastro_post);
 router.get('/login', AuthController.login_get);
 router.post('/login', AuthController.login_post);
+router.get('/logout', AuthController.logout_get);
 
 
 module.exports = router;

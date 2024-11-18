@@ -32,15 +32,20 @@ const createToken = (id) => {
 
 module.exports = {
 
-    async cadastro_get(req, res) {
+    async cadastro_get (req, res) {
         res.render('signup');
     },
 
-    async login_get(req, res) {
+    async login_get (req, res) {
         res.render('login');
     },
 
-    async cadastro_post(req, res) {
+    async logout_get (req, res) {
+        res.cookie('jwt', '', { maxAge: 1 });
+        res.redirect('/login');
+    },
+
+    async cadastro_post (req, res) {
 
         try {
             const salt = await bcrypt.genSalt(10);
@@ -69,7 +74,7 @@ module.exports = {
         }
     },
 
-    async login_post(req, res) {
+    async login_post (req, res) {
 
         const { nome , email, senha } = req.body;
 
