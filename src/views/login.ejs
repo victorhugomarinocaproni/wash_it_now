@@ -44,7 +44,7 @@
         senhaError.textContent = data.errors.senha;
       }
 
-      if (res.status != 400) {
+      if (data.usuario) {
         location.assign('/');
       }
 
