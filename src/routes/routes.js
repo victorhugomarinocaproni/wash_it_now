@@ -1,8 +1,8 @@
-const express = require('express');
-const routes = express.Router();
+const { Router } = require('express');
+const router = Router();
 
-routes.get('/', (req, res) => {
-    res.send('OK');
-});
+const RouteController = require('../controllers/RouteController');
 
-module.exports = routes;
+router.get('/home', RouteController.home_get);
+
+module.exports = router;
