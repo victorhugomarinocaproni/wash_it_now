@@ -31,10 +31,16 @@ form.addEventListener('submit', async (e) => {
       body: JSON.stringify({ nome, email, senha }),
       headers: {'Content-Type': 'application/json'}
     });
+
+    const data = await res.json();
+    console.log(`Cadastro: ${data}`);
+
+    if (data.usuario) {
+      location.assign('/home');
+    }
   }
   catch (err) {
     console.log(err);
   }
-
 });
 </script>

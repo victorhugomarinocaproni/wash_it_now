@@ -61,9 +61,8 @@ module.exports = {
 
             res.cookie('jwt', token, {
                 httpOnly: true,
-                maxAge: maxAge * 1000,
-                sameSite: 'lax',
-                secure: false});
+                maxAge: maxAge * 1000
+            });
 
             res.status(201).json({ usuario: usuario.id });
 

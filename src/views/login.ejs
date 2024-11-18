@@ -37,7 +37,7 @@
 
       const data = await res.json();
 
-      console.log(`Aqui: ${data}`);
+      console.log(`Login: ${data}`);
 
       if (data.errors) {
         emailError.textContent = data.errors.email;
@@ -51,6 +51,5 @@
     catch (err) {
       console.log(err);
     }
-  
   });
   </script>
