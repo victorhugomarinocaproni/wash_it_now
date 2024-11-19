@@ -7,6 +7,9 @@ class Usuario extends Model {
       nome: DataTypes.STRING,
       email: DataTypes.STRING,
       senha: DataTypes.STRING,
+      endereco: DataTypes.STRING,
+      numero_endereco: DataTypes.INTEGER,
+      zipcode: DataTypes.STRING,
     }, {
       sequelize,
       modelName: 'Usuario',

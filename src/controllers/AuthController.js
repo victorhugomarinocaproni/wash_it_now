@@ -53,7 +53,10 @@ module.exports = {
             var usr = {
                 nome: req.body.nome,
                 email: req.body.email,
-                senha: await bcrypt.hash(req.body.senha, salt)
+                senha: await bcrypt.hash(req.body.senha, salt),
+                endereco: req.body.endereco,
+                numero_endereco: req.body.numero_endereco,
+                zipcode: req.body.zipcode,
             };
 
             const usuario = await Usuario.create(usr);

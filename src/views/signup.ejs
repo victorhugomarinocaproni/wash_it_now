@@ -2,13 +2,25 @@
 
 <form action="/cadastro">
   <h2>Sign up</h2>
+
   <label for="nome">Nome</label>
   <input type="text" name="nome" required />
+
   <label for="email">Email</label>
   <input type="text" name="email" required />
-  <div class="email error"></div>
+
+  <label for="endereco">Endereço</label>
+  <input type="text" name="endereco" required />
+
+  <label for="numero_endereco">Numero Endereço</label>
+  <input type="number" name="numero_endereco" required />
+
+  <label for="zipcode">CEP</label>
+  <input type="text" name="zipcode" required />
+
   <label for="senha">Senha</label>
-  <input type="text" name="senha" required />
+  <input type="password" name="senha" required />
+
   <button>Cadastrar</button>
 </form>
 
@@ -24,11 +36,14 @@ form.addEventListener('submit', async (e) => {
   const nome = form.nome.value;
   const email = form.email.value;
   const senha = form.senha.value;
+  const endereco = form.endereco.value;
+  const numero_endereco = form.numero_endereco.value;
+  const zipcode = form.zipcode.value;
 
   try {
     const res = await fetch('/cadastro', { 
       method: 'POST', 
-      body: JSON.stringify({ nome, email, senha }),
+      body: JSON.stringify({ nome, email, senha, endereco, numero_endereco, zipcode }),
       headers: {'Content-Type': 'application/json'}
     });
 
