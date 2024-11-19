@@ -21,23 +21,12 @@ class Usuario extends Model {
     if (!usuario) {
       throw new Error('E-mail Incorreto!');
     }
-
     const isSenhaCorreta = await bcrypt.compare(senha, usuario.senha);
-
     if (!isSenhaCorreta) {
       throw new Error ('Senha Incorreta!');
     }
-
     return usuario;
   }
-
-
-
-
-
-
 }
-
-
 
 module.exports = Usuario;

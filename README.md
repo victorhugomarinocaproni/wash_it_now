@@ -80,6 +80,7 @@ No projeto, estamos utilizando o <strong>ORM (Object Relational Mapper) "Sequeli
 ```
 npx sequelize db:create
 npx sequelize db:migrate
+npx sequelize seed:generate --name <nome_do_arquivo>
 ```
 
 
