@@ -9,8 +9,13 @@
   <nav>
     <h1><a href="/">Ninja Smoothies</a></h1>
     <ul>
-      <li><a href="/login">Log in</a></li>
-      <li><a href="/cadastro" class="btn">Sign up</a></li>
-      <li><a href="/logout" class="logout-btn">Sair</a></li>
+      <% if (usuario) { %>
+        <li>Bem-vindo, <%= usuario.email %> </li>
+        <li><a href="/logout" class="logout-btn">Sair</a></li>
+        <li><a href="/usuario/<%= usuario.id %>">Perfil</a></li>
+        <% } else { %>
+        <li><a href="/login">Log in</a></li>
+        <li><a href="/cadastro" class="btn">Sign up</a></li>
+        <% } %>
     </ul>
   </nav>
