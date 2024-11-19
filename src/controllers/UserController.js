@@ -1,11 +1,13 @@
 const Usuario = require('../database/models/Usuario');
 
 module.exports = {
-    async store(req, res) {
-        const { nome, email, senha } = req.body;
 
-        const usuario = await Usuario.create( {nome, email, senha} );
+    async atualizar_dados_get(req, res) {
+        res.status(201).json({ ok: 'BATEU NO UPDATE' });
+    },
 
-        return res.json(usuario);
-    }
+    async atualizar_dados_put(req, res) {
+        const usuario_id = req.params;
+        
+    },
 };

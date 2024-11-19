@@ -5,5 +5,5 @@ module.exports = {
     async home_get(req, res) {
         res.render('home');
     },
-
+    
 };
