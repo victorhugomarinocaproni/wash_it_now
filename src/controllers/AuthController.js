@@ -1,6 +1,7 @@
 const Usuario = require('../database/models/Usuario');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { exec } = require('child_process');
 
 const handleErrors = (err) => {
     console.log(err.message, err.code);
@@ -83,11 +84,36 @@ module.exports = {
         try {
             const usuario = await Usuario.login(nome, email, senha);
             const token = createToken(usuario.id);
-            res.cookie('jwt', token, {
-                httpOnly: true,
-                maxAge: maxAge * 1000
-            });
-            res.status(200).json({ usuario: usuario.id });
+
+            exec(`C:\\WorkSoftwares\\Java-SDK\\jdk-21.0.2\\bin\\java -cp "C:\\Users\\victo\\Desktop\\PI4\\server\\Cliente\\dependency\\gson-2.11.0.jar;C:\\Users\\victo\\Desktop\\PI4\\server\\Cliente" Cliente localhost 3000 ${usuario.zipcode}`, 
+                (err, stdout, stderr) => {
+
+                    if (err) {
+                        console.log(`Erro ao executar programa cliente: ${err.message}`);
+                        return res.status(500).json({ err: 'SERVIDOR OFFLINE' });
+                    }
+
+                    if (stderr) {
+                        console.error(`Erro no programa cliente: ${stderr}`);
+                        return res.status(500).json({ error: 'Erro ao processar dados' });
+                    }
+
+                    try {
+                        console.log(stdout);
+                        const servicos = JSON.parse(stdout);
+                        res.cookie('jwt', token, {
+                            httpOnly: true,
+                            maxAge: maxAge * 1000
+                        });
+                        console.log(servicos);
+                        res.status(200).json({ usuario: usuario.id, servicos: servicos });
+                    }
+                    catch (parseError) {
+                        console.error('Erro ao parsear o JSON recebido:', parseError.message);
+                        res.status(500).json({ error: 'Erro ao processar dados do servidor' });
+                    }
+                }
+            );     
         }
         catch (err) {
             const errors = handleErrors(err);

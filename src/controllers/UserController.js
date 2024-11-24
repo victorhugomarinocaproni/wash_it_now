@@ -56,8 +56,5 @@ module.exports = {
         else {
             res.status(400).json({ err: 'Usuário não encontrado'});
         }
-
-
-
     },
 };
